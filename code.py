@@ -3,21 +3,14 @@ import streamlit as st
 from dotenv import load_dotenv
 from google import genai
 
-# =========================
-# Load Environment Variables
-# =========================
 load_dotenv()
 
 API_KEY = os.getenv("GEMINI_API_KEY")
 MODEL_NAME = "gemini-1.5-flash"
 
-# If API key exists, use Gemini. Otherwise app will run in demo mode.
+
 client = genai.Client(api_key=API_KEY) if API_KEY else None
 
-
-# =========================
-# Intelligent Failover Output
-# =========================
 def demo_response(agent_name, user_task):
     outputs = {
         "Research Agent": f"""
@@ -166,9 +159,6 @@ Demo output generated successfully through the Intelligent Failover System.
     )
 
 
-# =========================
-# Main Agent Caller
-# =========================
 def call_agent(agent_name, system_role, user_task):
     if client is None:
         return demo_response(agent_name, user_task)
@@ -202,10 +192,6 @@ Make the output useful for real business execution.
     except Exception:
         return demo_response(agent_name, user_task)
 
-
-# =========================
-# Agents
-# =========================
 def researcher_agent(task):
     return call_agent(
         "Research Agent",
@@ -277,10 +263,6 @@ Content Output:
 """
     )
 
-
-# =========================
-# Streamlit UI
-# =========================
 st.set_page_config(
     page_title="Multi-Agent Business Automation System",
     page_icon="🤖",
@@ -343,9 +325,6 @@ if run_button:
             st.markdown(final_output)
 
 
-# =========================
-# Footer
-# =========================
 st.markdown("---")
 st.caption(
     "Built with Streamlit, Gemini API, and Intelligent Failover System for uninterrupted demo experience."
